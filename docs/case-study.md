@@ -51,6 +51,24 @@ The fix was to relaunch the uninstall script using 64-bit PowerShell through `Sy
 
 The wrapper script launches the real uninstall script in 64-bit PowerShell so it can read the correct registry path.
 
+## Intune Command Used
+
+In Intune Win32 app deployment, the uninstall command was changed to call the 64-bit PowerShell wrapper first:
+
+`powershell.exe -ExecutionPolicy Bypass -File .\request-64bit-powershell.ps1`
+
+The wrapper script then launched the real uninstall script in 64-bit PowerShell.
+
+The flow became:
+
+1. Intune runs the uninstall command.
+2. The uninstall command starts `request-64bit-powershell.ps1`.
+3. The wrapper uses `Sysnative` to relaunch PowerShell in 64-bit mode.
+4. The 64-bit PowerShell process runs `uninstall.ps1`.
+5. The uninstall script can now read the 64-bit registry uninstall path and collect the uninstall string.
+
+This was mainly needed for applications installed as 64-bit software. If the target application only existed as a 32-bit install, the normal WOW6432Node registry path could still be detected. However, because existing endpoint states were inconsistent, the safer design was to force the uninstall script into 64-bit PowerShell so it could check the expected 64-bit uninstall keys correctly.
+
 ## What This Project Demonstrates
 
 - Intune Win32 app troubleshooting
