@@ -10,6 +10,8 @@ This wrapper uses Sysnative to launch the target script in 64-bit PowerShell.
 #>
 
 $PackageRoot = Split-Path -Path $MyInvocation.MyCommand.Path
+
+# This is the real uninstall script that needs to run in 64-bit PowerShell.
 $TargetScript = Join-Path $PackageRoot "uninstall.ps1"
 
 $PowerShell64 = "$env:WINDIR\Sysnative\WindowsPowerShell\v1.0\PowerShell.exe"
