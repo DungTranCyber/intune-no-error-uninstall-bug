@@ -1,2 +1,1 @@
-# Intune-win32-app-deployment-case-study
-Intune Win32 app deployment case study covering detection rules, IME logs, registry detection, 32-bit vs 64-bit PowerShell context, and deployment troubleshooting.
+# The No-Error Intune Bug: 32-bit PowerShell and 64-bit Registry Paths
