@@ -51,23 +51,23 @@ The fix was to relaunch the uninstall script using 64-bit PowerShell through `Sy
 
 The wrapper script launches the real uninstall script in 64-bit PowerShell so it can read the correct registry path.
 
-## Intune Command Used
+## Intune Uninstall Command Flow
 
-In Intune Win32 app deployment, the uninstall command was changed to call the 64-bit PowerShell wrapper first:
+In the Intune Win32 app profile, the uninstall command was changed to call the 64-bit PowerShell wrapper first:
 
 `powershell.exe -ExecutionPolicy Bypass -File .\request-64bit-powershell.ps1`
 
-The wrapper script then launched the real uninstall script in 64-bit PowerShell.
+The wrapper then launched the real uninstall script in 64-bit PowerShell.
 
-The flow became:
+Flow:
 
 1. Intune runs the uninstall command.
-2. The uninstall command starts `request-64bit-powershell.ps1`.
-3. The wrapper uses `Sysnative` to relaunch PowerShell in 64-bit mode.
-4. The 64-bit PowerShell process runs `uninstall.ps1`.
-5. The uninstall script can now read the 64-bit registry uninstall path and collect the uninstall string.
+2. `request-64bit-powershell.ps1` starts.
+3. The wrapper calls 64-bit PowerShell through `Sysnative`.
+4. `uninstall.ps1` runs in 64-bit PowerShell.
+5. The uninstall script can read the 64-bit registry uninstall path and collect the uninstall string.
 
-This was mainly needed for applications installed as 64-bit software. If the target application only existed as a 32-bit install, the normal WOW6432Node registry path could still be detected. However, because existing endpoint states were inconsistent, the safer design was to force the uninstall script into 64-bit PowerShell so it could check the expected 64-bit uninstall keys correctly.
+This was mainly needed for applications installed as 64-bit software. If the target application only existed as a 32-bit install, the WOW6432Node registry path could still be detected. However, because existing endpoint states can be inconsistent, I used the wrapper method so the uninstall script could reliably check 64-bit uninstall keys.
 
 ## What This Project Demonstrates
 
