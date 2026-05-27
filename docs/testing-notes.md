@@ -89,4 +89,4 @@ A script can “run successfully” and still fail logically.
 
 This case taught me to test not only whether PowerShell returns an error, but whether each important variable contains the expected data.
 
-It also taught me that no-error failures can be harder to troubleshoot than visible errors, because the script may continue running while the actual logic silently fails.
+It also taught me that no-error failures can be harder to troubleshoot than visible errors, because the script may continue running while the actual logic silently fails. It's funny because I used to hate it when powershell outputs an error. I crave error message now after this painful experience. 
