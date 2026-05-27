@@ -29,7 +29,40 @@ I tested by:
 5. Comparing 32-bit and 64-bit PowerShell behavior.
 6. Testing `Sysnative` to relaunch the script in 64-bit PowerShell.
 
+# Testing Notes
+
+## What Made This Hard
+
+...
+
+## Key Discovery
+
+...
+
+## Validation Steps
+
+...
+
+## Troubleshooting Process
+
+Because there was no clear error, I had to isolate the issue manually.
+
+I used two methods:
+
+1. Added `Write-Host` output throughout the script while using transcript/logging to see which steps were reached.
+2. Removed chunks of the uninstall script from the bottom upward and tested after each change.
+
+The script appeared to run, but the output stopped around the registry lookup section. When I checked the variable that should have contained the installed application information, it was empty.
+
+That was confusing because when I manually opened normal PowerShell and checked the same registry path, the uninstall string existed.
+
+The key discovery came when I opened 32-bit PowerShell manually and tested the same registry lookup. In that context, the script could not see the expected 64-bit registry uninstall path.
+
+That confirmed the issue was not the uninstall command itself. The issue was the PowerShell execution context used by Intune.
+
 ## Lesson
+
+...
 
 A script can “run successfully” and still fail logically.
 
