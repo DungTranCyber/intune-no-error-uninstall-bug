@@ -4,6 +4,8 @@ This case study explains how I troubleshot a silent Intune Win32 app uninstall f
 
 The root cause was that the Intune Win32 app uninstall process was running PowerShell in a 32 bit context
 
+The fix was to use a wrapper script so the Intune uninstall command could relaunch the real uninstall script in 64-bit PowerShell before reading registry uninstall keys.
+
 ## Core Lesson
 
 - [Request 64-bit PowerShell Wrapper](core-lesson/request-64bit-powershell.ps1)  
